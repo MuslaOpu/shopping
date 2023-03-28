@@ -7,8 +7,8 @@ const Productslist = ({ data }) => {
   return (
     <section>
       <Row className='product-list'>
-        {data?.map((item)=>(
-            <ProductCard item={item}/>
+        {data?.map((item, index)=>(
+            <ProductCard item={item} key={index}/>
         ))}
       </Row>
   </section>

@@ -8,6 +8,7 @@ import logo from '../assets/images/eco-logo.png'
 import userIcon from '../assets/images/user-icon.png'
 import { toast } from 'react-toastify';
 import { Container, Row } from 'reactstrap';
+import { useSelector } from 'react-redux';
 
 
 
@@ -74,6 +75,10 @@ const Header = () => {
 const headerRef = useRef(null);
 const menuRef = useRef(null);
 
+const navigate = useNavigate();
+
+const totalQuantity = useSelector(state=> state.cart.totalQuantity);
+
 const stickyHeaderFunc = () => {
   window.addEventListener("scroll", () => {
     if(document.body.scrollTop>80 || document.documentElement.scrollTop>80){
@@ -90,6 +95,10 @@ useEffect(()=>{
 });
 
 const menuToggle = () => menuRef.current.classList.toggle( 'active_menu');
+
+const navigateToCart = () => {
+  navigate('/cart');
+}
 
 
   return (
@@ -122,9 +131,9 @@ const menuToggle = () => menuRef.current.classList.toggle( 'active_menu');
                     <i class="ri-heart-line"></i>
                     <span className='badge'>1</span>
                 </span>
-                <span className='cart_icon'>
+                <span className='cart_icon' onClick={navigateToCart}>
                     <i class="ri-shopping-bag-line"></i>
-                    <span className='badge'>1</span>
+                    <span className='badge'>{totalQuantity}</span>
                 </span>
                 <span> 
                   <motion.img whileTap = {{scale: 1.2}} src={userIcon} alt="" />
