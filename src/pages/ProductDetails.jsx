@@ -1,26 +1,78 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Container, Row, Col, Input, Textarea } from 'reactstrap';
 import { useParams } from 'react-router-dom';
-import products from '../assets/data/products';
 import Helmet from '../components/Helmet';
 import CommonSection from '../components/CommonSection';
 import '../styles/product-details.scss';
 import {motion} from 'framer-motion';
+import {db} from '../firebase/firebase';
+import {doc, getDoc} from 'firebase/firestore';
+import useGetData from '../custom-hooks/useGetData';
+import Productslist from '../components/ProductList';
+import { cartActions } from '../redux/slices/cartSlice';
+import {  useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+
 
 const ProductDetails = () => {
+
+    const[product, setProduct] = useState({});
     const [tab, setTab] = useState('desc');
+
     const { id } = useParams();
-    const product = products.find((item)=> item.id === id);
+
+    const {data: products} = useGetData('products');
+
+    const docRef = doc(db, 'products', id);
+
+   
+
+    useEffect(()=>{
+        const getProduct = async() => {
+            const docSnap = await getDoc(docRef);
+
+           if (docSnap.exists()) {
+            setProduct(docSnap.data())
+           }else{
+            console.log('no product!')
+           }
+        }
+
+        getProduct();
+    })
 
     const { 
       imgUrl, 
       productName, 
       price, 
-      avgRating, 
+    //   avgRating, 
       description, 
       shortDesc, 
-      reviews } = product;
+    //   reviews,
+    category 
+    } = product;
 
+    const dispatch = useDispatch();
+
+    const addToCart = () => {
+        dispatch(
+            cartActions.addItem({
+                id,
+                imgUrl,
+                productName,
+                price
+            })
+        );
+
+        toast.success('Product added successfully');
+
+    } 
+
+    const relatedProducts = products.filter(item=>item.category === category);
+
+
+
+    
 
 return (
     <Helmet title ={productName}>
@@ -44,14 +96,15 @@ return (
                                     <span><i class="ri-star-fill"></i></span>
                                     <span><i class="ri-star-half-s-line"></i></span>
                                 </div>
-                                <p> (<span>{avgRating}</span> ratings)</p>
                             </div>
-
-                            <span className='product_price'>${price}</span>
+                            <div className='d-flex align-items-center gap-5'>
+                                <h3 className='product_price'> ${price}</h3>
+                                <h5>Category : {category}</h5>
+                            </div>
                                 <p className='mt-3'>{shortDesc}</p>
 
                             <motion.button whileTap = {{scale:1.2}} 
-                            className='buy_btn'>
+                            className='buy_btn' onClick={addToCart}>
                                 Add to Cart
                             </motion.button>
                         </div>
@@ -72,7 +125,7 @@ return (
                             </h6>
                             <h6 className={`${tab === 'rev' ? 'active_tab' : ''}`}
                             onClick ={()=> setTab('rev')}>
-                                Reviews ({reviews.length})
+                                Reviews 
                             </h6>
                         </div>
 
@@ -83,7 +136,7 @@ return (
                              ): (
                                 <div className='product_review mt-5'>
                                     <div className="review_wrapper">
-                                        <ul>
+                                        {/* <ul>
                                             {
                                                 reviews?.map((item,index)=> (
                                                     <li key={index} className='mb-4'>
@@ -92,7 +145,7 @@ return (
                                                         <p>{item.text}</p>
                                                     </li>
                                                 ))}
-                                        </ul>
+                                        </ul> */}
 
                                         <div className="review_form">
                                             <h4>Leave your experience</h4>
@@ -126,6 +179,11 @@ return (
                              )
                         }
                     </Col>
+                    <Col lg='12'>
+                        <h2 className='related_title'>You might also like</h2>
+                    </Col>
+
+                    <Productslist data={relatedProducts}/>
                 </Row>
             </Container>
         </section>
