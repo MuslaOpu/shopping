@@ -20,6 +20,7 @@ const defaultFormFields = {
 }
 
 
+
 const Signup= () => {
 
     const [file, setFile] =useState(null);
@@ -91,58 +92,58 @@ const Signup= () => {
 
     return <Helmet title = 'Signup'>
             <CommonSection title='Signup'/>
-        <section>
-            <Container>
-                <Row>
-                    <Col lg='6' className='m-auto text-center'>
-                        <h3 className='fw-bold fs-4 mb-4' >Signup</h3>
+                <section>
+                    <Container>
+                        <Row>
+                            <Col lg='6' className='m-auto text-center'>
+                                <h3 className='fw-bold fs-4 mb-4' >Signup</h3>
 
-                        <Form className='auth_form' onSubmit={signup}>
-                            <FormGroup className='form_group'>
-                                <Input type='input' placeholder='Enter your name'
-                                name='username'
-                                value={username} onChange={handleChange} />
-                            </FormGroup>
+                                <Form className='auth_form' onSubmit={signup}>
+                                    <FormGroup className='form_group'>
+                                        <Input type='input' placeholder='Enter your name'
+                                        name='username'
+                                        value={username} onChange={handleChange} />
+                                    </FormGroup>
 
-                            <FormGroup className='form_group'>
-                                <Input type='email' placeholder='Enter your email'
-                                name='email'
-                                value={email} onChange={handleChange} />
-                            </FormGroup>
+                                    <FormGroup className='form_group'>
+                                        <Input type='email' placeholder='Enter your email'
+                                        name='email'
+                                        value={email} onChange={handleChange} />
+                                    </FormGroup>
 
-                            <FormGroup className='form_group'>
-                                <Input type='password' placeholder='Enter your password'
-                                name='password'
-                                value={password} onChange={handleChange}/>
-                            </FormGroup>
+                                    <FormGroup className='form_group'>
+                                        <Input type='password' placeholder='Enter your password'
+                                        name='password'
+                                        value={password} onChange={handleChange}/>
+                                    </FormGroup>
 
-                            <FormGroup className='form_group'>
-                                <Input type='password' placeholder='Confirm your password' 
-                                name='confirmPassword'
-                                value={confirmPassword} onChange={handleChange}/>
-                            </FormGroup>
+                                    <FormGroup className='form_group'>
+                                        <Input type='password' placeholder='Confirm your password' 
+                                        name='confirmPassword'
+                                        value={confirmPassword} onChange={handleChange}/>
+                                    </FormGroup>
 
-                            <FormGroup className='form_group'>
-                                <Input type='file' 
-                                        name='file'
-                                        onChange={event=>setFile(event.target.files[0])}/>
-                            </FormGroup>
+                                    <FormGroup className='form_group'>
+                                        <Input type='file' 
+                                                name='file'
+                                                onChange={event=>setFile(event.target.files[0])}/>
+                                    </FormGroup>
 
-                            <Button type='submit' className="buy_btn auth_btn">
-                                Create an Account
-                            </Button>
-                            <p>Already hava an account? { " " }
-                                <Link to='/login'>
-                                    Login
-                                </Link>
-                            </p>
+                                    <Button type='submit' className="buy_btn auth_btn">
+                                        Create an Account
+                                    </Button>
+                                    <p>Already hava an account? { " " }
+                                        <Link to='/login'>
+                                            Login
+                                        </Link>
+                                    </p>
 
-                        </Form>
-                    </Col>
-                </Row>
-            </Container>
-        </section>
-    </Helmet>
+                                </Form>
+                            </Col>
+                        </Row>
+                    </Container>
+                </section>
+        </Helmet>
     }
 
 export default Signup;

@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { cartActions } from '../redux/slices/cartSlice';
 
 const ProductCard = ({item}) => {
-    
+
     const dispatch = useDispatch();
 
     const addToCart = () => {
@@ -17,7 +17,8 @@ const ProductCard = ({item}) => {
             id: item.id,
             productName: item.productName,
             price: item.price,
-            image: item.imgUrl
+            imgUrl: item.imgUrl
+         
         }));
 
         toast.success('Product added successfully');
@@ -34,7 +35,7 @@ const ProductCard = ({item}) => {
                         {item.productName}
                     </Link>
                 </h3>
-                <span>{item.category}</span>
+                <h3>{item.category}</h3>
             </div>
 
             <div className="product_card-bottom d-flex align-items-center
